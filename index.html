@@ -1,1 +1,1228 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IRON PULSE — سیستەمێ جیم و مەدەربێ تایبەت</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --gold: #d4af37;
+            --gold-bright: #f7e396;
+            --gold-deep: #8f6e14;
+            --bg-dark: #060709;
+            --card-bg: rgba(17, 20, 27, 0.92);
+            --border-gold: rgba(212, 175, 55, 0.45);
+            --text-muted: #9ca3af;
+            --success: #22c55e;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        body {
+            background: radial-gradient(circle at top, #181c26 0%, #060709 75%);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 14px 10px 44px;
+        }
+        .app-shell {
+            width: 100%;
+            max-width: 470px;
+            background: rgba(10, 12, 17, 0.96);
+            border: 1.5px solid var(--border-gold);
+            border-radius: 30px;
+            padding: 18px 15px 28px;
+            box-shadow: 0 25px 65px rgba(0, 0, 0, 0.95), 0 0 30px rgba(212, 175, 55, 0.12);
+        }
+        /* هێدەر و ناڤێ ئەپێ */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-gold);
+            margin-bottom: 14px;
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .brand-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--gold-bright), var(--gold));
+            color: #060709;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.35);
+        }
+        .brand-name {
+            font-size: 17px;
+            font-weight: 900;
+            letter-spacing: 0.5px;
+        }
+        .brand-name span {
+            color: var(--gold);
+        }
+        .brand-tag {
+            font-size: 10px;
+            color: var(--gold-bright);
+            display: block;
+            font-weight: 700;
+        }
+        .step-badge {
+            background: rgba(212, 175, 55, 0.16);
+            border: 1px solid var(--gold);
+            color: var(--gold-bright);
+            font-size: 11px;
+            font-weight: 800;
+            padding: 5px 11px;
+            border-radius: 20px;
+        }
+        .progress-bar-wrap {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            margin-bottom: 18px;
+        }
+        .progress-seg {
+            height: 5px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.12);
+            transition: 0.3s;
+        }
+        .progress-seg.active {
+            background: linear-gradient(90deg, var(--gold-bright), var(--gold));
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+        .page {
+            display: none;
+            animation: fadeUp 0.32s ease;
+        }
+        .page.active {
+            display: block;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .page-title {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        .page-title h2 {
+            font-size: 21px;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+        .page-title p {
+            font-size: 12.5px;
+            color: var(--text-muted);
+        }
 
+        /* لاپەڕا ١: پاشبنەما و فۆرمێ چووناژوورێ */
+        .login-hero {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            height: 145px;
+            margin-bottom: 16px;
+            border: 1px solid var(--border-gold);
+            display: flex;
+            align-items: flex-end;
+            padding: 15px;
+            background: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&auto=format&fit=crop') center/cover no-repeat;
+        }
+        .login-hero::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(6,7,9,0.2) 0%, rgba(6,7,9,0.94) 100%);
+        }
+        .login-hero-text {
+            position: relative;
+            z-index: 2;
+        }
+        .login-hero-text h3 {
+            font-size: 18px;
+            font-weight: 900;
+            color: var(--gold-bright);
+        }
+        .login-hero-text span {
+            font-size: 12px;
+            color: #e5e7eb;
+        }
+        .form-group {
+            margin-bottom: 12px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            color: #d1d5db;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        .input-box {
+            display: flex;
+            align-items: center;
+            background: var(--card-bg);
+            border: 1px solid var(--border-gold);
+            border-radius: 13px;
+            padding: 0 12px;
+            height: 46px;
+        }
+        .input-box i {
+            color: var(--gold);
+            font-size: 14px;
+            margin-left: 8px;
+        }
+        .input-box input, .input-box select {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 13.5px;
+            outline: none;
+        }
+        .input-box select option {
+            background: #11141c;
+            color: #fff;
+        }
+        .phone-row {
+            display: flex;
+            gap: 8px;
+            direction: ltr;
+        }
+        .country-code-select {
+            width: 118px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-gold);
+            border-radius: 13px;
+            color: var(--gold-bright);
+            font-weight: 800;
+            font-size: 13px;
+            padding: 0 8px;
+            height: 46px;
+            outline: none;
+        }
+        .country-code-select option {
+            background: #11141c;
+            color: #fff;
+        }
+
+        /* دوگمە */
+        .btn-gold {
+            width: 100%;
+            padding: 13px;
+            border-radius: 14px;
+            border: none;
+            background: linear-gradient(135deg, var(--gold-bright), var(--gold));
+            color: #060709;
+            font-size: 14.5px;
+            font-weight: 900;
+            cursor: pointer;
+            margin-top: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.28);
+        }
+        .btn-outline {
+            width: 100%;
+            padding: 11px;
+            border-radius: 13px;
+            border: 1px solid var(--border-gold);
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--gold-bright);
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        /* لاپەڕا ٢: ڕەگەز و زانیاریێن کەسی */
+        .gender-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+        .gender-card {
+            background: var(--card-bg);
+            border: 1.5px solid rgba(255, 255, 255, 0.12);
+            border-radius: 16px;
+            padding: 14px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.25s;
+        }
+        .gender-card.selected {
+            border-color: var(--gold);
+            background: rgba(212, 175, 55, 0.15);
+            box-shadow: 0 0 18px rgba(212, 175, 55, 0.22);
+        }
+        .gender-card i {
+            font-size: 25px;
+            color: var(--gold);
+            margin-bottom: 6px;
+            display: block;
+        }
+        .gender-card span {
+            font-size: 14px;
+            font-weight: 800;
+        }
+        .two-cols {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        /* لاپەڕا ٣: شێوێ لەشی و مەدەرب */
+        .section-label {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--gold-bright);
+            margin: 12px 0 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .body-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+        .body-card {
+            background: var(--card-bg);
+            border: 1.5px solid rgba(255, 255, 255, 0.12);
+            border-radius: 14px;
+            overflow: hidden;
+            cursor: pointer;
+            text-align: center;
+            padding-bottom: 8px;
+            transition: 0.25s;
+        }
+        .body-card.selected {
+            border-color: var(--gold);
+            box-shadow: 0 0 16px rgba(212, 175, 55, 0.35);
+            transform: translateY(-2px);
+        }
+        .body-card img {
+            width: 100%;
+            height: 110px;
+            object-fit: cover;
+            display: block;
+            margin-bottom: 6px;
+        }
+        .body-card h4 {
+            font-size: 11.5px;
+            font-weight: 800;
+            color: #fff;
+            padding: 0 4px;
+        }
+        .body-card span {
+            font-size: 9.5px;
+            color: var(--gold-bright);
+        }
+        .coach-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .coach-card {
+            background: var(--card-bg);
+            border: 1.5px solid rgba(255, 255, 255, 0.12);
+            border-radius: 15px;
+            padding: 10px 6px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.25s;
+        }
+        .coach-card.selected {
+            border-color: var(--gold);
+            background: rgba(212, 175, 55, 0.15);
+        }
+        .coach-card img {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--gold);
+            margin-bottom: 6px;
+        }
+        .coach-card h4 {
+            font-size: 11.5px;
+            font-weight: 800;
+        }
+        .coach-card p {
+            font-size: 9.5px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+        .contact-coach-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .btn-wa {
+            background: #16a34a;
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            padding: 11px 8px;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .btn-ig {
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            padding: 11px 8px;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        /* لاپەڕا ٤: خشتەیێ یاریزانان ب بها + پەکێجێن VIP یێن مەدەربی */
+        .plan-price-card {
+            background: var(--card-bg);
+            border: 1.5px solid rgba(255, 255, 255, 0.14);
+            border-radius: 16px;
+            padding: 12px 14px;
+            margin-bottom: 9px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: 0.25s;
+        }
+        .plan-price-card.selected {
+            border-color: var(--gold);
+            background: rgba(212, 175, 55, 0.15);
+            box-shadow: 0 0 16px rgba(212, 175, 55, 0.2);
+        }
+        .plan-info h4 {
+            font-size: 14px;
+            font-weight: 800;
+            color: #fff;
+        }
+        .plan-info p {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+        .price-pill {
+            background: linear-gradient(135deg, var(--gold-bright), var(--gold));
+            color: #060709;
+            font-weight: 900;
+            font-size: 14px;
+            padding: 6px 12px;
+            border-radius: 11px;
+            flex-shrink: 0;
+        }
+
+        .vip-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+        .vip-card {
+            background: var(--card-bg);
+            border: 1.5px solid rgba(255, 255, 255, 0.14);
+            border-radius: 15px;
+            padding: 11px 6px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.25s;
+            position: relative;
+        }
+        .vip-card.selected {
+            border-color: var(--gold);
+            background: rgba(212, 175, 55, 0.18);
+            box-shadow: 0 0 18px rgba(212, 175, 55, 0.28);
+            transform: translateY(-2px);
+        }
+        .vip-badge {
+            display: inline-block;
+            background: rgba(34, 197, 94, 0.18);
+            color: #4ade80;
+            border: 1px solid rgba(34, 197, 94, 0.45);
+            font-size: 9.5px;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 8px;
+            margin-bottom: 5px;
+        }
+        .vip-card h4 {
+            font-size: 13px;
+            font-weight: 900;
+            color: #fff;
+        }
+        .vip-amount {
+            font-size: 16px;
+            font-weight: 900;
+            color: var(--gold-bright);
+            margin-top: 4px;
+        }
+
+        .days-selector {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+        .day-pill {
+            background: var(--card-bg);
+            border: 1px solid var(--border-gold);
+            color: #d1d5db;
+            padding: 8px 4px;
+            border-radius: 11px;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            text-align: center;
+        }
+        .day-pill.active {
+            background: linear-gradient(135deg, var(--gold-bright), var(--gold));
+            color: #060709;
+        }
+        .day-builder-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-gold);
+            border-radius: 16px;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+        .day-builder-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .day-builder-header span {
+            font-weight: 800;
+            color: var(--gold-bright);
+            font-size: 13.5px;
+        }
+        .muscle-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-bottom: 9px;
+        }
+        .m-tag {
+            font-size: 11px;
+            padding: 4px 9px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            background: rgba(255, 255, 255, 0.04);
+            color: #e5e7eb;
+            cursor: pointer;
+            font-weight: 700;
+        }
+        .m-tag.active {
+            background: rgba(212, 175, 55, 0.25);
+            border-color: var(--gold);
+            color: var(--gold-bright);
+        }
+        .volume-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+        }
+        .vol-box {
+            background: rgba(6, 7, 9, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 9px;
+            padding: 6px;
+            text-align: center;
+        }
+        .vol-box label {
+            display: block;
+            font-size: 9.5px;
+            color: var(--text-muted);
+            margin-bottom: 2px;
+        }
+        .vol-box input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: var(--gold-bright);
+            text-align: center;
+            font-weight: 800;
+            font-size: 13px;
+            outline: none;
+        }
+
+        /* خشتەیێ دویماهیێ و کۆژمێ گشتی */
+        .summary-table-box {
+            background: #0c0f16;
+            border: 1.5px solid var(--gold);
+            border-radius: 18px;
+            padding: 13px;
+            margin-top: 14px;
+            font-size: 12px;
+        }
+        .summary-table-box h4 {
+            color: var(--gold-bright);
+            margin-bottom: 10px;
+            font-size: 14.5px;
+            font-weight: 900;
+            text-align: center;
+        }
+        table.clean-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+        table.clean-table th, table.clean-table td {
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            padding: 6px 7px;
+            text-align: right;
+            font-size: 11.5px;
+        }
+        table.clean-table th {
+            background: rgba(212, 175, 55, 0.16);
+            color: var(--gold-bright);
+        }
+        .total-cost-bar {
+            background: rgba(212, 175, 55, 0.14);
+            border: 1px solid var(--gold);
+            border-radius: 12px;
+            padding: 10px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            font-weight: 900;
+        }
+        .total-cost-bar .amt {
+            color: var(--gold-bright);
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-shell">
+    <!-- سەرێ ئەپێ IRON PULSE -->
+    <div class="top-bar">
+        <div class="brand">
+            <div class="brand-icon"><i class="fa-solid fa-dumbbell"></i></div>
+            <div>
+                <div class="brand-name">IRON <span>PULSE</span></div>
+                <span class="brand-tag">سیستەمێ جیم و مەدەربێ تایبەت</span>
+            </div>
+        </div>
+        <div class="step-badge" id="stepIndicator">لاپەڕا ١ ژ ٤</div>
+    </div>
+
+    <div class="progress-bar-wrap">
+        <div class="progress-seg active" id="seg1"></div>
+        <div class="progress-seg" id="seg2"></div>
+        <div class="progress-seg" id="seg3"></div>
+        <div class="progress-seg" id="seg4"></div>
+    </div>
+
+    <!-- ================= لاپەڕا ١: چووناژوور (Login) ================= -->
+    <div class="page active" id="page1">
+        <div class="login-hero">
+            <div class="login-hero-text">
+                <h3>بخێربێی بۆ IRON PULSE</h3>
+                <span>هەژمارا خۆ تۆمار بکە و خشتەیێ جیمێ خۆ دروست بکە</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>ژمارا تەلەفۆنێ (دگەل کۆدێ وەلاتی)</label>
+            <div class="phone-row">
+                <select class="country-code-select" id="countryCode">
+                    <option value="+964">🇮🇶 +964</option>
+                    <option value="+90">🇹🇷 +90</option>
+                    <option value="+971">🇦🇪 +971</option>
+                    <option value="+49">🇩🇪 +49</option>
+                    <option value="+44">🇬🇧 +44</option>
+                    <option value="+1">🇺🇸 +1</option>
+                </select>
+                <div class="input-box" style="flex:1;">
+                    <input type="tel" id="phoneInput" placeholder="750 000 0000" dir="ltr">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>ئیمێل (Email)</label>
+            <div class="input-box">
+                <i class="fa-solid fa-envelope"></i>
+                <input type="email" id="emailInput" placeholder="example@gmail.com" dir="ltr">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>ڕەقەم سری (Password)</label>
+            <div class="input-box">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" id="passInput" placeholder="••••••••">
+            </div>
+        </div>
+
+        <button class="btn-gold" onclick="goToPage(2)">
+            <span>چووناژوور و بەردەوامبوون</span>
+            <i class="fa-solid fa-arrow-left"></i>
+        </button>
+    </div>
+
+    <!-- ================= لاپەڕا ٢: پێزانینێن کەسی ================= -->
+    <div class="page" id="page2">
+        <div class="page-title">
+            <h2>پێزانینێن کەسی</h2>
+            <p>زانیاریێن لەشێ خۆ داخل بکە دا خشتە ل دویڤ تە بیت</p>
+        </div>
+
+        <label style="display:block; font-size:12px; color:#d1d5db; font-weight:700; margin-bottom:6px;">ڕەگەز هەلبژێرە:</label>
+        <div class="gender-grid">
+            <div class="gender-card selected" id="genderMale" onclick="selectGender('کوڕ (Male)')">
+                <i class="fa-solid fa-mars"></i>
+                <span>کوڕ (Male)</span>
+            </div>
+            <div class="gender-card" id="genderFemale" onclick="selectGender('کچ (Female)')">
+                <i class="fa-solid fa-venus"></i>
+                <span>کچ (Female)</span>
+            </div>
+        </div>
+
+        <div class="two-cols">
+            <div class="form-group">
+                <label>کێش / وزن (kg)</label>
+                <div class="input-box">
+                    <i class="fa-solid fa-weight-scale"></i>
+                    <input type="number" id="weightInput" placeholder="75">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>درێژی / طول (cm)</label>
+                <div class="input-box">
+                    <i class="fa-solid fa-ruler-vertical"></i>
+                    <input type="number" id="heightInput" placeholder="178">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>ڕۆژا ژدایکبوونێ (تاريخ الميلاد)</label>
+            <div class="input-box">
+                <i class="fa-solid fa-calendar-days"></i>
+                <input type="date" id="dobInput">
+            </div>
+        </div>
+
+        <div class="two-cols">
+            <div class="form-group">
+                <label>وەلات (Country)</label>
+                <div class="input-box">
+                    <i class="fa-solid fa-globe"></i>
+                    <select id="countryInput" onchange="updateCities()">
+                        <option value="کوردستان / عێراق">کوردستان / عێراق</option>
+                        <option value="تورکیا">تورکیا</option>
+                        <option value="ئەڵمانیا">ئەڵمانیا</option>
+                        <option value="ئیمارات">ئیمارات</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>باژێڕ (City)</label>
+                <div class="input-box">
+                    <i class="fa-solid fa-city"></i>
+                    <select id="cityInput">
+                        <option value="دهۆک">دهۆک</option>
+                        <option value="هەولێر">هەولێر</option>
+                        <option value="سلێمانی">سلێمانی</option>
+                        <option value="زاخۆ">زاخۆ</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn-gold" onclick="goToPage(3)">
+            <i class="fa-solid fa-floppy-disk"></i>
+            <span>خەزنکرن (Save)</span>
+        </button>
+        <button class="btn-outline" onclick="goToPage(1)">زڤڕین</button>
+    </div>
+
+    <!-- ================= لاپەڕا ٣: هەلبژارتنا شێوێ لەشی و مەدەربی ================= -->
+    <div class="page" id="page3">
+        <div class="page-title">
+            <h2>ئارمانجا لەشی و ڕاهێنەر</h2>
+            <p>شێوێ لەشێ خۆ یێ خواستی و ڕاهێنەرێ خۆ هەلبژێرە</p>
+        </div>
+
+        <div class="section-label"><i class="fa-solid fa-person"></i> ١. شێوێ لەشێ تە دڤێت چەوا بیت:</div>
+        <div class="body-grid">
+            <div class="body-card selected" onclick="selectBody(this, 'لەشێ تەقسیمکری و کێم چەوری (Lean & Shredded)')">
+                <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=400&auto=format&fit=crop" alt="Lean">
+                <h4>تەقسیمکری</h4>
+                <span>Lean & Fit</span>
+            </div>
+            <div class="body-card" onclick="selectBody(this, 'زێدەکرنا ماسولکان و قەبارەی (Bulking)')">
+                <img src="https://images.unsplash.com/photo-1534367507873-d2d7e24c797f?w=400&auto=format&fit=crop" alt="Bulking">
+                <h4>ماسولکە و قەبارە</h4>
+                <span>Bulking</span>
+            </div>
+            <div class="body-card" onclick="selectBody(this, 'داکەتنا کێشی و ڕێکخستنا لەشی (Weight Loss)')">
+                <img src="https://images.unsplash.com/photo-1518310383802-640c2de311b2?w=400&auto=format&fit=crop" alt="Weight Loss">
+                <h4>داکەتنا کێشی</h4>
+                <span>Weight Loss</span>
+            </div>
+        </div>
+
+        <div class="section-label"><i class="fa-solid fa-user-tie"></i> ٢. ڕاهێنەرێ خۆ هەلبژێرە (کلیک بکە):</div>
+        <div class="coach-grid">
+            <div class="coach-card selected" onclick="selectCoach(this, 'کاپتن دانیال', '9647500000001', 'ironpulse_daniel')">
+                <img src="https://images.unsplash.com/photo-1567013127542-490d757e51fc?w=300&auto=format&fit=crop" alt="Coach 1">
+                <h4>کاپتن دانیال</h4>
+                <p>لەشجوانی</p>
+            </div>
+            <div class="coach-card" onclick="selectCoach(this, 'کاپتن مایا', '9647500000002', 'ironpulse_maya')">
+                <img src="https://images.unsplash.com/photo-1594381898411-846e7d193883?w=300&auto=format&fit=crop" alt="Coach 2">
+                <h4>کاپتن مایا</h4>
+                <p>فیتنێس و کێش</p>
+            </div>
+            <div class="coach-card" onclick="selectCoach(this, 'کاپتن ڕزگار', '9647500000003', 'ironpulse_rizgar')">
+                <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=300&auto=format&fit=crop" alt="Coach 3">
+                <h4>کاپتن ڕزگار</h4>
+                <p>هێز و تەقسیم</p>
+            </div>
+        </div>
+
+        <div class="section-label"><i class="fa-solid fa-paper-plane"></i> ٣. ناردنا خشتەیێ پێزانینان بۆ مەدەربی:</div>
+        <div class="contact-coach-row">
+            <button class="btn-wa" onclick="sendToCoach('whatsapp')">
+                <i class="fa-brands fa-whatsapp"></i>
+                <span>ناردن ب WhatsApp</span>
+            </button>
+            <button class="btn-ig" onclick="sendToCoach('instagram')">
+                <i class="fa-brands fa-instagram"></i>
+                <span>ناردن ب Instagram</span>
+            </button>
+        </div>
+
+        <button class="btn-gold" onclick="goToPage(4)">
+            <span>چوون بۆ لاپەڕا ٤ (خشتە و VIP)</span>
+            <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <button class="btn-outline" onclick="goToPage(2)">زڤڕین</button>
+    </div>
+
+    <!-- ================= لاپەڕا ٤: خشتەیێ یاریزانان ب بها + پەکێجێن VIP ================= -->
+    <div class="page" id="page4">
+        <div class="page-title">
+            <h2>خشتەیێ یاریزانان و VIP</h2>
+            <p>خشتەیێ خۆ ب بها هەلبژێرە یان پەکێجا VIP دگەل مەدەربی وەرگرە</p>
+        </div>
+
+        <div class="section-label"><i class="fa-solid fa-dumbbell"></i> ١. خشتەیێ تەمرینان یێ یاریزانان (ب بها):</div>
+        <div class="plan-price-card selected" id="planWorkoutCard" onclick="toggleWorkoutPlan()">
+            <div class="plan-info">
+                <h4>خشتەیێ تەمرینێن جیمێ (تایبەت ب یاریزانی)</h4>
+                <p>هەلبژارتنا ڕۆژ، ماسولکە، ژمارا تەمرین، سێت و عەدەدان</p>
+            </div>
+            <div class="price-pill">20$</div>
+        </div>
+
+        <div class="plan-price-card" id="planDietCard" onclick="toggleDietPlan()">
+            <div class="plan-info">
+                <h4>خشتەیێ خوارنێ (Diet & Nutrition Schedule)</h4>
+                <p>پڕۆتین، کاربۆهێدرات و ژەمێن رۆژانە ل دویڤ کێش و ئارمانجێ</p>
+            </div>
+            <div class="price-pill">15$</div>
+        </div>
+
+        <div class="section-label"><i class="fa-solid fa-crown"></i> ٢. پەکێجێن VIP دگەل مەدەربی (چاڤدێری ١٠٠٪):</div>
+        <div class="vip-grid">
+            <div class="vip-card" onclick="selectVipPackage(this, '١ هەیڤ VIP (١٠٠٪ مەدەرب)', 100)">
+                <span class="vip-badge">VIP 100%</span>
+                <h4>١ هەیڤ</h4>
+                <div class="vip-amount">100$</div>
+            </div>
+            <div class="vip-card" onclick="selectVipPackage(this, '٢ هەیڤ VIP (١٠٠٪ مەدەرب)', 150)">
+                <span class="vip-badge">VIP 100%</span>
+                <h4>٢ هەیڤ</h4>
+                <div class="vip-amount">150$</div>
+            </div>
+            <div class="vip-card" onclick="selectVipPackage(this, '٣ هەیڤ VIP (١٠٠٪ مەدەرب)', 200)">
+                <span class="vip-badge">VIP 100%</span>
+                <h4>٣ هەیڤ</h4>
+                <div class="vip-amount">200$</div>
+            </div>
+        </div>
+
+        <div class="section-label"><i class="fa-solid fa-calendar-week"></i> ٣. ڕێکخستنا ڕۆژێن تەمرینێ د خشتەیێ یاریزانی دا:</div>
+        <div class="days-selector">
+            <div class="day-pill" onclick="setDaysCount(3, this)">٣ ڕۆژ</div>
+            <div class="day-pill" onclick="setDaysCount(4, this)">٤ ڕۆژ</div>
+            <div class="day-pill active" onclick="setDaysCount(5, this)">٥ ڕۆژ</div>
+            <div class="day-pill" onclick="setDaysCount(6, this)">٦ ڕۆژ</div>
+        </div>
+
+        <div id="daysContainer"></div>
+
+        <button class="btn-gold" onclick="generateFinalTable()">
+            <i class="fa-solid fa-table-list"></i>
+            <span>دروستکرنا خشتەیێ دویماهیێ و حیسابکرنا بهای</span>
+        </button>
+
+        <div class="summary-table-box" id="finalSummaryBox" style="display:none;">
+            <h4>خشتەیێ تەمام یێ IRON PULSE</h4>
+            <div id="finalTableRender"></div>
+            <div class="total-cost-bar">
+                <span>کۆژمێ گشتی یێ هەلبژارتی:</span>
+                <span class="amt" id="totalCostDisplay">20$</span>
+            </div>
+            <div class="contact-coach-row" style="margin-bottom:0;">
+                <button class="btn-wa" onclick="sendFullOrderToCoach('whatsapp')">
+                    <i class="fa-brands fa-whatsapp"></i>
+                    <span>ناردن بۆ مەدەربی (WhatsApp)</span>
+                </button>
+                <button class="btn-ig" onclick="sendFullOrderToCoach('instagram')">
+                    <i class="fa-brands fa-instagram"></i>
+                    <span>ناردن بۆ مەدەربی (Instagram)</span>
+                </button>
+            </div>
+        </div>
+
+        <button class="btn-outline" onclick="goToPage(3)">زڤڕین</button>
+    </div>
+</div>
+
+<script>
+    const userState = {
+        phone: '',
+        email: '',
+        gender: 'کوڕ (Male)',
+        weight: '',
+        height: '',
+        dob: '',
+        country: 'کوردستان / عێراق',
+        city: 'دهۆک',
+        bodyGoal: 'لەشێ تەقسیمکری و کێم چەوری (Lean & Shredded)',
+        coachName: 'کاپتن دانیال',
+        coachPhone: '9647500000001',
+        coachInsta: 'ironpulse_daniel',
+        workoutSelected: true,
+        workoutPrice: 20,
+        dietSelected: false,
+        dietPrice: 15,
+        vipLabel: 'بێ پەکێجا VIP',
+        vipPrice: 0,
+        daysCount: 5
+    };
+
+    const allMuscles = [
+        'سینگ (Chest)',
+        'مل (Shoulder)',
+        'پێشیا دەستی (Biceps)',
+        'پشتا دەستی (Triceps)',
+        'پشت (Back)',
+        'پێ (Legs)',
+        'ملە (Neck)',
+        'زک (Abs)'
+    ];
+
+    let scheduleData = [
+        { muscles: ['سینگ (Chest)', 'مل (Shoulder)'], exercises: 6, sets: 3, reps: 10 },
+        { muscles: ['پێشیا دەستی (Biceps)', 'پشتا دەستی (Triceps)'], exercises: 4, sets: 3, reps: 10 },
+        { muscles: ['پێ (Legs)'], exercises: 4, sets: 3, reps: 10 },
+        { muscles: ['سینگ (Chest)', 'مل (Shoulder)'], exercises: 6, sets: 3, reps: 10 },
+        { muscles: ['سینگ (Chest)', 'پشتا دەستی (Triceps)', 'پشت (Back)', 'ملە (Neck)'], exercises: 8, sets: 3, reps: 10 },
+        { muscles: ['پشت (Back)', 'زک (Abs)'], exercises: 5, sets: 3, reps: 12 }
+    ];
+
+    function goToPage(num) {
+        if (num === 2) {
+            const code = document.getElementById('countryCode').value;
+            const phone = document.getElementById('phoneInput').value.trim();
+            const email = document.getElementById('emailInput').value.trim();
+            const pass = document.getElementById('passInput').value.trim();
+            if (!phone || !pass) {
+                alert('هیڤیدارین ژمارا تەلەفۆنێ و ڕەقەم سری داخل بکە!');
+                return;
+            }
+            userState.phone = `${code} ${phone}`;
+            userState.email = email || 'نەهاتییە نڤیسین';
+        }
+        if (num === 3) {
+            userState.weight = document.getElementById('weightInput').value.trim() || '75';
+            userState.height = document.getElementById('heightInput').value.trim() || '175';
+            userState.dob = document.getElementById('dobInput').value || '2000-01-01';
+            userState.country = document.getElementById('countryInput').value;
+            userState.city = document.getElementById('cityInput').value;
+        }
+        if (num === 4) {
+            renderDayBuilders();
+        }
+
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById('page' + num).classList.add('active');
+        document.getElementById('stepIndicator').innerText = `لاپەڕا ${num} ژ ٤`;
+
+        for (let i = 1; i <= 4; i++) {
+            document.getElementById('seg' + i).classList.toggle('active', i <= num);
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function selectGender(g) {
+        userState.gender = g;
+        document.getElementById('genderMale').classList.toggle('selected', g.includes('Male'));
+        document.getElementById('genderFemale').classList.toggle('selected', g.includes('Female'));
+    }
+
+    function updateCities() {
+        const country = document.getElementById('countryInput').value;
+        const citySel = document.getElementById('cityInput');
+        const citiesMap = {
+            'کوردستان / عێراق': ['دهۆک', 'هەولێر', 'سلێمانی', 'زاخۆ', 'بەغدا'],
+            'تورکیا': ['ئیستەنبۆل', 'ئەنقەرە', 'مێرسین', 'ئەنتالیا'],
+            'ئەڵمانیا': ['بەرلین', 'هامبۆرگ', 'میونشن', 'کۆڵن'],
+            'ئیمارات': ['دوبەی', 'ئەبوزەبی', 'شارقە']
+        };
+        citySel.innerHTML = '';
+        (citiesMap[country] || ['دهۆک']).forEach(c => {
+            citySel.innerHTML += `<option value="${c}">${c}</option>`;
+        });
+    }
+
+    function selectBody(el, goalText) {
+        userState.bodyGoal = goalText;
+        document.querySelectorAll('.body-card').forEach(c => c.classList.remove('selected'));
+        el.classList.add('selected');
+    }
+
+    function selectCoach(el, name, phone, insta) {
+        userState.coachName = name;
+        userState.coachPhone = phone;
+        userState.coachInsta = insta;
+        document.querySelectorAll('.coach-card').forEach(c => c.classList.remove('selected'));
+        el.classList.add('selected');
+    }
+
+    function buildProfileMessage() {
+        return `سلاو ${userState.coachName} (IRON PULSE)، ئەڤە خشتەیێ پێزانینێن منە:\n` +
+               `• ڕەگەز: ${userState.gender}\n` +
+               `• ژمارە: ${userState.phone}\n` +
+               `• ئیمێل: ${userState.email}\n` +
+               `• کێش: ${userState.weight} kg | درێژی: ${userState.height} cm\n` +
+               `• ژدایکبوون: ${userState.dob}\n` +
+               `• وەلات و باژێڕ: ${userState.country} - ${userState.city}\n` +
+               `• شێوێ لەشێ خواستی: ${userState.bodyGoal}`;
+    }
+
+    function sendToCoach(platform) {
+        const msg = buildProfileMessage();
+        if (platform === 'whatsapp') {
+            window.open(`https://wa.me/${userState.coachPhone}?text=${encodeURIComponent(msg)}`, '_blank');
+        } else {
+            navigator.clipboard?.writeText(msg);
+            alert('خشتەیێ پێزانینێن تە هاتە کۆپی کرن! دێ چییە سەر ئینستاگرامێ مەدەربی دا بۆ وی فرێکەی (Paste).');
+            window.open(`https://instagram.com/${userState.coachInsta}`, '_blank');
+        }
+    }
+
+    function toggleWorkoutPlan() {
+        userState.workoutSelected = !userState.workoutSelected;
+        document.getElementById('planWorkoutCard').classList.toggle('selected', userState.workoutSelected);
+    }
+
+    function toggleDietPlan() {
+        userState.dietSelected = !userState.dietSelected;
+        document.getElementById('planDietCard').classList.toggle('selected', userState.dietSelected);
+    }
+
+    function selectVipPackage(el, label, price) {
+        const alreadySelected = el.classList.contains('selected');
+        document.querySelectorAll('.vip-card').forEach(c => c.classList.remove('selected'));
+        if (alreadySelected) {
+            userState.vipLabel = 'بێ پەکێجا VIP';
+            userState.vipPrice = 0;
+        } else {
+            el.classList.add('selected');
+            userState.vipLabel = label;
+            userState.vipPrice = price;
+        }
+    }
+
+    function getTotalCost() {
+        let total = 0;
+        if (userState.workoutSelected) total += userState.workoutPrice;
+        if (userState.dietSelected) total += userState.dietPrice;
+        total += userState.vipPrice;
+        return total;
+    }
+
+    function setDaysCount(count, el) {
+        userState.daysCount = count;
+        document.querySelectorAll('.day-pill').forEach(p => p.classList.remove('active'));
+        el.classList.add('active');
+        renderDayBuilders();
+    }
+
+    function renderDayBuilders() {
+        const container = document.getElementById('daysContainer');
+        container.innerHTML = '';
+
+        for (let i = 0; i < userState.daysCount; i++) {
+            const dayObj = scheduleData[i];
+            let tagsHtml = '';
+            allMuscles.forEach(m => {
+                const isSelected = dayObj.muscles.includes(m) ? 'active' : '';
+                tagsHtml += `<span class="m-tag ${isSelected}" onclick="toggleMuscle(${i}, '${m}')">${m}</span>`;
+            });
+
+            container.innerHTML += `
+                <div class="day-builder-card">
+                    <div class="day-builder-header">
+                        <span><i class="fa-solid fa-calendar-day"></i> ڕۆژا ${i + 1}</span>
+                        <small style="color:#9ca3af;">ماسولکان هەلبژێرە</small>
+                    </div>
+                    <div class="muscle-tags">${tagsHtml}</div>
+                    <div class="volume-row">
+                        <div class="vol-box">
+                            <label>ژمارا تەمرینان</label>
+                            <input type="number" value="${dayObj.exercises}" onchange="updateVol(${i}, 'exercises', this.value)">
+                        </div>
+                        <div class="vol-box">
+                            <label>سێت (Sets)</label>
+                            <input type="number" value="${dayObj.sets}" onchange="updateVol(${i}, 'sets', this.value)">
+                        </div>
+                        <div class="vol-box">
+                            <label>عەدەد (Reps)</label>
+                            <input type="number" value="${dayObj.reps}" onchange="updateVol(${i}, 'reps', this.value)">
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+    }
+
+    function toggleMuscle(dayIndex, muscle) {
+        const list = scheduleData[dayIndex].muscles;
+        const idx = list.indexOf(muscle);
+        if (idx > -1) {
+            list.splice(idx, 1);
+        } else {
+            list.push(muscle);
+        }
+        renderDayBuilders();
+    }
+
+    function updateVol(dayIndex, field, val) {
+        scheduleData[dayIndex][field] = parseInt(val) || 1;
+    }
+
+    function generateFinalTable() {
+        const box = document.getElementById('finalSummaryBox');
+        const render = document.getElementById('finalTableRender');
+        let rows = '';
+
+        if (userState.workoutSelected) {
+            for (let i = 0; i < userState.daysCount; i++) {
+                const d = scheduleData[i];
+                const mText = d.muscles.length ? d.muscles.join(' + ') : 'پشوو (Rest)';
+                rows += `
+                    <tr>
+                        <td><strong>ڕۆژا ${i + 1}</strong></td>
+                        <td>${mText}</td>
+                        <td>${d.exercises} تەمرین (${d.sets} سێت × ${d.reps} عەدەد)</td>
+                    </tr>
+                `;
+            }
+        }
+        if (userState.dietSelected) {
+            rows += `
+                <tr>
+                    <td><strong>خشتەیێ خوارنێ</strong></td>
+                    <td>پڕۆتین + کاربۆهێدرات + ژەمێن رۆژانە</td>
+                    <td>بهایێ خشتەی: 15$</td>
+                </tr>
+            `;
+        }
+        rows += `
+            <tr>
+                <td><strong>پەکێجا VIP</strong></td>
+                <td>${userState.vipLabel}</td>
+                <td>${userState.vipPrice}$</td>
+            </tr>
+        `;
+
+        render.innerHTML = `
+            <table class="clean-table">
+                <thead>
+                    <tr>
+                        <th>بەش / ڕۆژ</th>
+                        <th>هویرکاری</th>
+                        <th>تەمرین / بها</th>
+                    </tr>
+                </thead>
+                <tbody>${rows}</tbody>
+            </table>
+        `;
+        document.getElementById('totalCostDisplay').innerText = `${getTotalCost()}$`;
+        box.style.display = 'block';
+        box.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function sendFullOrderToCoach(platform) {
+        let text = buildProfileMessage() + `\n\n📋 خشتە و پەکێجا هەلبژارتی:\n`;
+        if (userState.workoutSelected) {
+            text += `• خشتەیێ تەمرینان (20$ - ${userState.daysCount} ڕۆژ):\n`;
+            for (let i = 0; i < userState.daysCount; i++) {
+                const d = scheduleData[i];
+                text += `  - ڕۆژا ${i + 1}: ${d.muscles.join(' + ')} | ${d.exercises} تەمرین (${d.sets} سێت × ${d.reps} عەدەد)\n`;
+            }
+        }
+        if (userState.dietSelected) text += `• خشتەیێ خوارنێ: 15$\n`;
+        text += `• پەکێجا VIP: ${userState.vipLabel} (${userState.vipPrice}$)\n`;
+        text += `• کۆژمێ گشتی: ${getTotalCost()}$`;
+
+        if (platform === 'whatsapp') {
+            window.open(`https://wa.me/${userState.coachPhone}?text=${encodeURIComponent(text)}`, '_blank');
+        } else {
+            navigator.clipboard?.writeText(text);
+            alert('خشتەیێ تەمام یێ تە و کۆژمێ گشتی هاتنە کۆپی کرن! دێ چییە سەر ئینستاگرامێ مەدەربی دا بۆ وی فرێکەی (Paste).');
+            window.open(`https://instagram.com/${userState.coachInsta}`, '_blank');
+        }
+    }
+</script>
+
+</body>
+</html>
