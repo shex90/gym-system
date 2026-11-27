@@ -1,20 +1,19 @@
 <!DOCTYPE html>
-<html lang="ku" dir="rtl">
+<html lang="ku" dir="rtl" id="htmlTag" translate="no" class="notranslate">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google" content="notranslate">
     <title>IRON PULSE — سیستەمێ جیم و مەدەربێ تایبەت</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         :root {
             --gold: #d4af37;
             --gold-bright: #f7e396;
-            --gold-deep: #8f6e14;
             --bg-dark: #060709;
             --card-bg: rgba(17, 20, 27, 0.92);
             --border-gold: rgba(212, 175, 55, 0.45);
             --text-muted: #9ca3af;
-            --success: #22c55e;
         }
         * {
             box-sizing: border-box;
@@ -41,7 +40,6 @@
             padding: 18px 15px 28px;
             box-shadow: 0 25px 65px rgba(0, 0, 0, 0.95), 0 0 30px rgba(212, 175, 55, 0.12);
         }
-        /* هێدەر و ناڤێ ئەپێ */
         .top-bar {
             display: flex;
             justify-content: space-between;
@@ -49,6 +47,7 @@
             padding-bottom: 12px;
             border-bottom: 1px solid var(--border-gold);
             margin-bottom: 14px;
+            gap: 8px;
         }
         .brand {
             display: flex;
@@ -65,12 +64,10 @@
             align-items: center;
             justify-content: center;
             font-size: 18px;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.35);
         }
         .brand-name {
             font-size: 17px;
             font-weight: 900;
-            letter-spacing: 0.5px;
         }
         .brand-name span {
             color: var(--gold);
@@ -81,14 +78,32 @@
             display: block;
             font-weight: 700;
         }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
         .step-badge {
             background: rgba(212, 175, 55, 0.16);
             border: 1px solid var(--gold);
             color: var(--gold-bright);
             font-size: 11px;
             font-weight: 800;
-            padding: 5px 11px;
+            padding: 5px 10px;
             border-radius: 20px;
+        }
+        .icon-gear-btn {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            border: 1px solid var(--border-gold);
+            color: var(--gold-bright);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 13px;
         }
         .progress-bar-wrap {
             display: grid;
@@ -104,17 +119,16 @@
         }
         .progress-seg.active {
             background: linear-gradient(90deg, var(--gold-bright), var(--gold));
-            box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
         }
         .page {
             display: none;
-            animation: fadeUp 0.32s ease;
+            animation: fadeUp 0.3s ease;
         }
         .page.active {
             display: block;
         }
         @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(8px); }
             to { opacity: 1; transform: translateY(0); }
         }
         .page-title {
@@ -124,20 +138,17 @@
         .page-title h2 {
             font-size: 21px;
             font-weight: 900;
-            color: #fff;
             margin-bottom: 4px;
         }
         .page-title p {
             font-size: 12.5px;
             color: var(--text-muted);
         }
-
-        /* لاپەڕا ١: پاشبنەما و فۆرمێ چووناژوورێ */
         .login-hero {
             position: relative;
             border-radius: 20px;
             overflow: hidden;
-            height: 145px;
+            height: 140px;
             margin-bottom: 16px;
             border: 1px solid var(--border-gold);
             display: flex;
@@ -221,8 +232,6 @@
             background: #11141c;
             color: #fff;
         }
-
-        /* دوگمە */
         .btn-gold {
             width: 100%;
             padding: 13px;
@@ -238,7 +247,6 @@
             justify-content: center;
             align-items: center;
             gap: 8px;
-            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.28);
         }
         .btn-outline {
             width: 100%;
@@ -252,8 +260,6 @@
             cursor: pointer;
             margin-top: 8px;
         }
-
-        /* لاپەڕا ٢: ڕەگەز و زانیاریێن کەسی */
         .gender-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -289,13 +295,11 @@
             grid-template-columns: 1fr 1fr;
             gap: 10px;
         }
-
-        /* لاپەڕا ٣: شێوێ لەشی و مەدەرب */
         .section-label {
             font-size: 13px;
             font-weight: 800;
             color: var(--gold-bright);
-            margin: 12px 0 8px;
+            margin: 14px 0 8px;
             display: flex;
             align-items: center;
             gap: 6px;
@@ -323,7 +327,7 @@
         }
         .body-card img {
             width: 100%;
-            height: 110px;
+            height: 112px;
             object-fit: cover;
             display: block;
             margin-bottom: 6px;
@@ -340,15 +344,15 @@
         }
         .coach-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
             margin-bottom: 12px;
         }
         .coach-card {
             background: var(--card-bg);
             border: 1.5px solid rgba(255, 255, 255, 0.12);
-            border-radius: 15px;
-            padding: 10px 6px;
+            border-radius: 16px;
+            padding: 12px 8px;
             text-align: center;
             cursor: pointer;
             transition: 0.25s;
@@ -356,23 +360,56 @@
         .coach-card.selected {
             border-color: var(--gold);
             background: rgba(212, 175, 55, 0.15);
+            box-shadow: 0 0 16px rgba(212, 175, 55, 0.22);
         }
         .coach-card img {
-            width: 56px;
-            height: 56px;
+            width: 64px;
+            height: 64px;
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid var(--gold);
             margin-bottom: 6px;
         }
         .coach-card h4 {
-            font-size: 11.5px;
+            font-size: 12.5px;
             font-weight: 800;
         }
         .coach-card p {
-            font-size: 9.5px;
+            font-size: 10.5px;
             color: var(--text-muted);
             margin-top: 2px;
+        }
+        .coach-direct-links {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+        }
+        .mini-wa-btn {
+            background: #16a34a;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 5px 8px;
+            font-size: 10.5px;
+            font-weight: 800;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .mini-ig-btn {
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 5px 8px;
+            font-size: 10.5px;
+            font-weight: 800;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
         }
         .contact-coach-row {
             display: grid;
@@ -408,14 +445,12 @@
             justify-content: center;
             gap: 6px;
         }
-
-        /* لاپەڕا ٤: خشتەیێ یاریزانان ب بها + پەکێجێن VIP یێن مەدەربی */
         .plan-price-card {
             background: var(--card-bg);
             border: 1.5px solid rgba(255, 255, 255, 0.14);
             border-radius: 16px;
-            padding: 12px 14px;
-            margin-bottom: 9px;
+            padding: 13px 14px;
+            margin-bottom: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -425,7 +460,7 @@
         .plan-price-card.selected {
             border-color: var(--gold);
             background: rgba(212, 175, 55, 0.15);
-            box-shadow: 0 0 16px rgba(212, 175, 55, 0.2);
+            box-shadow: 0 0 16px rgba(212, 175, 55, 0.22);
         }
         .plan-info h4 {
             font-size: 14px;
@@ -446,7 +481,6 @@
             border-radius: 11px;
             flex-shrink: 0;
         }
-
         .vip-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -461,7 +495,6 @@
             text-align: center;
             cursor: pointer;
             transition: 0.25s;
-            position: relative;
         }
         .vip-card.selected {
             border-color: var(--gold);
@@ -483,7 +516,6 @@
         .vip-card h4 {
             font-size: 13px;
             font-weight: 900;
-            color: #fff;
         }
         .vip-amount {
             font-size: 16px;
@@ -491,99 +523,6 @@
             color: var(--gold-bright);
             margin-top: 4px;
         }
-
-        .days-selector {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 6px;
-            margin-bottom: 12px;
-        }
-        .day-pill {
-            background: var(--card-bg);
-            border: 1px solid var(--border-gold);
-            color: #d1d5db;
-            padding: 8px 4px;
-            border-radius: 11px;
-            font-size: 12px;
-            font-weight: 800;
-            cursor: pointer;
-            text-align: center;
-        }
-        .day-pill.active {
-            background: linear-gradient(135deg, var(--gold-bright), var(--gold));
-            color: #060709;
-        }
-        .day-builder-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-gold);
-            border-radius: 16px;
-            padding: 12px;
-            margin-bottom: 10px;
-        }
-        .day-builder-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-            padding-bottom: 6px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        .day-builder-header span {
-            font-weight: 800;
-            color: var(--gold-bright);
-            font-size: 13.5px;
-        }
-        .muscle-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 5px;
-            margin-bottom: 9px;
-        }
-        .m-tag {
-            font-size: 11px;
-            padding: 4px 9px;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.16);
-            background: rgba(255, 255, 255, 0.04);
-            color: #e5e7eb;
-            cursor: pointer;
-            font-weight: 700;
-        }
-        .m-tag.active {
-            background: rgba(212, 175, 55, 0.25);
-            border-color: var(--gold);
-            color: var(--gold-bright);
-        }
-        .volume-row {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 6px;
-        }
-        .vol-box {
-            background: rgba(6, 7, 9, 0.85);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 9px;
-            padding: 6px;
-            text-align: center;
-        }
-        .vol-box label {
-            display: block;
-            font-size: 9.5px;
-            color: var(--text-muted);
-            margin-bottom: 2px;
-        }
-        .vol-box input {
-            width: 100%;
-            background: transparent;
-            border: none;
-            color: var(--gold-bright);
-            text-align: center;
-            font-weight: 800;
-            font-size: 13px;
-            outline: none;
-        }
-
-        /* خشتەیێ دویماهیێ و کۆژمێ گشتی */
         .summary-table-box {
             background: #0c0f16;
             border: 1.5px solid var(--gold);
@@ -606,9 +545,9 @@
         }
         table.clean-table th, table.clean-table td {
             border: 1px solid rgba(212, 175, 55, 0.3);
-            padding: 6px 7px;
+            padding: 7px 8px;
             text-align: right;
-            font-size: 11.5px;
+            font-size: 12px;
         }
         table.clean-table th {
             background: rgba(212, 175, 55, 0.16);
@@ -629,12 +568,88 @@
             color: var(--gold-bright);
             font-size: 16px;
         }
+        /* پەنێلێ زێدەکرنا کاپتنان ب تەلەفۆن و ئەکاونتی (بێی کۆد) */
+        .coach-admin-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.88);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 12px;
+        }
+        .coach-admin-box {
+            background: #0d1016;
+            border: 1.5px solid var(--gold);
+            border-radius: 22px;
+            width: 100%;
+            max-width: 450px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 16px 14px;
+        }
+        .coach-admin-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 10px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-gold);
+        }
+        .coach-admin-head h3 {
+            font-size: 15px;
+            color: var(--gold-bright);
+        }
+        .close-modal-btn {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.18);
+            color: #fff;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .coach-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border-gold);
+            border-radius: 11px;
+            padding: 7px 9px;
+            margin-bottom: 7px;
+            gap: 8px;
+            font-size: 12px;
+        }
+        .coach-list-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .coach-list-left img {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid var(--gold);
+        }
+        .del-coach-btn {
+            background: #ef4444;
+            color: #fff;
+            border: none;
+            border-radius: 7px;
+            padding: 5px 8px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+        }
     </style>
 </head>
-<body>
+<body translate="no" class="notranslate">
 
-<div class="app-shell">
-    <!-- سەرێ ئەپێ IRON PULSE -->
+<div class="app-shell" translate="no">
     <div class="top-bar">
         <div class="brand">
             <div class="brand-icon"><i class="fa-solid fa-dumbbell"></i></div>
@@ -643,7 +658,12 @@
                 <span class="brand-tag">سیستەمێ جیم و مەدەربێ تایبەت</span>
             </div>
         </div>
-        <div class="step-badge" id="stepIndicator">لاپەڕا ١ ژ ٤</div>
+        <div class="header-right">
+            <div class="step-badge" id="stepIndicator">لاپەڕا ١ ژ ٤</div>
+            <button type="button" class="icon-gear-btn" onclick="openCoachManager()" title="زێدەکرنا کاپتنان">
+                <i class="fa-solid fa-user-plus"></i>
+            </button>
+        </div>
     </div>
 
     <div class="progress-bar-wrap">
@@ -658,7 +678,7 @@
         <div class="login-hero">
             <div class="login-hero-text">
                 <h3>بخێربێی بۆ IRON PULSE</h3>
-                <span>هەژمارا خۆ تۆمار بکە و خشتەیێ جیمێ خۆ دروست بکە</span>
+                <span>هەژمارا خۆ تۆمار بکە و خشتەیێ خۆ هەلبژێرە</span>
             </div>
         </div>
 
@@ -695,7 +715,7 @@
             </div>
         </div>
 
-        <button class="btn-gold" onclick="goToPage(2)">
+        <button type="button" class="btn-gold" onclick="goToPage(2)">
             <span>چووناژوور و بەردەوامبوون</span>
             <i class="fa-solid fa-arrow-left"></i>
         </button>
@@ -705,16 +725,16 @@
     <div class="page" id="page2">
         <div class="page-title">
             <h2>پێزانینێن کەسی</h2>
-            <p>زانیاریێن لەشێ خۆ داخل بکە دا خشتە ل دویڤ تە بیت</p>
+            <p>زانیاریێن لەشێ خۆ داخل بکە</p>
         </div>
 
-        <label style="display:block; font-size:12px; color:#d1d5db; font-weight:700; margin-bottom:6px;">ڕەگەز هەلبژێرە:</label>
+        <label style="display:block; font-size:12px; color:#d1d5db; font-weight:700; margin-bottom:6px;">ڕەگەز هەلبژێرە (ل دویڤ ڤێ لاپەڕا ٣ دێ جودا بیت):</label>
         <div class="gender-grid">
-            <div class="gender-card selected" id="genderMale" onclick="selectGender('کوڕ (Male)')">
+            <div class="gender-card selected" id="genderMale" onclick="selectGender('male')">
                 <i class="fa-solid fa-mars"></i>
                 <span>کوڕ (Male)</span>
             </div>
-            <div class="gender-card" id="genderFemale" onclick="selectGender('کچ (Female)')">
+            <div class="gender-card" id="genderFemale" onclick="selectGender('female')">
                 <i class="fa-solid fa-venus"></i>
                 <span>کچ (Female)</span>
             </div>
@@ -772,200 +792,274 @@
             </div>
         </div>
 
-        <button class="btn-gold" onclick="goToPage(3)">
+        <button type="button" class="btn-gold" onclick="goToPage(3)">
             <i class="fa-solid fa-floppy-disk"></i>
             <span>خەزنکرن (Save)</span>
         </button>
-        <button class="btn-outline" onclick="goToPage(1)">زڤڕین</button>
+        <button type="button" class="btn-outline" onclick="goToPage(1)">زڤڕین</button>
     </div>
 
-    <!-- ================= لاپەڕا ٣: هەلبژارتنا شێوێ لەشی و مەدەربی ================= -->
+    <!-- ================= لاپەڕا ٣: شێوێ لەشی و کاپتنێن جودا (کوڕ / کچ) ================= -->
     <div class="page" id="page3">
         <div class="page-title">
-            <h2>ئارمانجا لەشی و ڕاهێنەر</h2>
-            <p>شێوێ لەشێ خۆ یێ خواستی و ڕاهێنەرێ خۆ هەلبژێرە</p>
+            <h2 id="page3Title">شێوێ لەشی و کاپتنێن کوڕان</h2>
+            <p id="page3Sub">شێوێ لەشێ خۆ یێ خواستی و کاپتنێ خۆ هەلبژێرە</p>
         </div>
 
         <div class="section-label"><i class="fa-solid fa-person"></i> ١. شێوێ لەشێ تە دڤێت چەوا بیت:</div>
-        <div class="body-grid">
-            <div class="body-card selected" onclick="selectBody(this, 'لەشێ تەقسیمکری و کێم چەوری (Lean & Shredded)')">
-                <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=400&auto=format&fit=crop" alt="Lean">
-                <h4>تەقسیمکری</h4>
-                <span>Lean & Fit</span>
-            </div>
-            <div class="body-card" onclick="selectBody(this, 'زێدەکرنا ماسولکان و قەبارەی (Bulking)')">
-                <img src="https://images.unsplash.com/photo-1534367507873-d2d7e24c797f?w=400&auto=format&fit=crop" alt="Bulking">
-                <h4>ماسولکە و قەبارە</h4>
-                <span>Bulking</span>
-            </div>
-            <div class="body-card" onclick="selectBody(this, 'داکەتنا کێشی و ڕێکخستنا لەشی (Weight Loss)')">
-                <img src="https://images.unsplash.com/photo-1518310383802-640c2de311b2?w=400&auto=format&fit=crop" alt="Weight Loss">
-                <h4>داکەتنا کێشی</h4>
-                <span>Weight Loss</span>
-            </div>
-        </div>
+        <div class="body-grid" id="bodyShapesContainer"></div>
 
-        <div class="section-label"><i class="fa-solid fa-user-tie"></i> ٢. ڕاهێنەرێ خۆ هەلبژێرە (کلیک بکە):</div>
-        <div class="coach-grid">
-            <div class="coach-card selected" onclick="selectCoach(this, 'کاپتن دانیال', '9647500000001', 'ironpulse_daniel')">
-                <img src="https://images.unsplash.com/photo-1567013127542-490d757e51fc?w=300&auto=format&fit=crop" alt="Coach 1">
-                <h4>کاپتن دانیال</h4>
-                <p>لەشجوانی</p>
-            </div>
-            <div class="coach-card" onclick="selectCoach(this, 'کاپتن مایا', '9647500000002', 'ironpulse_maya')">
-                <img src="https://images.unsplash.com/photo-1594381898411-846e7d193883?w=300&auto=format&fit=crop" alt="Coach 2">
-                <h4>کاپتن مایا</h4>
-                <p>فیتنێس و کێش</p>
-            </div>
-            <div class="coach-card" onclick="selectCoach(this, 'کاپتن ڕزگار', '9647500000003', 'ironpulse_rizgar')">
-                <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=300&auto=format&fit=crop" alt="Coach 3">
-                <h4>کاپتن ڕزگار</h4>
-                <p>هێز و تەقسیم</p>
-            </div>
-        </div>
+        <div class="section-label"><i class="fa-solid fa-user-tie"></i> ٢. کاپتنێ خۆ هەلبژێرە:</div>
+        <div class="coach-grid" id="coachesContainer"></div>
 
-        <div class="section-label"><i class="fa-solid fa-paper-plane"></i> ٣. ناردنا خشتەیێ پێزانینان بۆ مەدەربی:</div>
+        <div class="section-label"><i class="fa-solid fa-paper-plane"></i> ٣. ناردنا خشتەیێ پێزانینان بۆ کاپتنی:</div>
         <div class="contact-coach-row">
-            <button class="btn-wa" onclick="sendToCoach('whatsapp')">
+            <button type="button" class="btn-wa" onclick="sendProfileToSelectedCoach('whatsapp')">
                 <i class="fa-brands fa-whatsapp"></i>
                 <span>ناردن ب WhatsApp</span>
             </button>
-            <button class="btn-ig" onclick="sendToCoach('instagram')">
+            <button type="button" class="btn-ig" onclick="sendProfileToSelectedCoach('instagram')">
                 <i class="fa-brands fa-instagram"></i>
                 <span>ناردن ب Instagram</span>
             </button>
         </div>
 
-        <button class="btn-gold" onclick="goToPage(4)">
+        <button type="button" class="btn-gold" onclick="goToPage(4)">
             <span>چوون بۆ لاپەڕا ٤ (خشتە و VIP)</span>
             <i class="fa-solid fa-arrow-left"></i>
         </button>
-        <button class="btn-outline" onclick="goToPage(2)">زڤڕین</button>
+        <button type="button" class="btn-outline" onclick="goToPage(2)">زڤڕین</button>
     </div>
 
-    <!-- ================= لاپەڕا ٤: خشتەیێ یاریزانان ب بها + پەکێجێن VIP ================= -->
+    <!-- ================= لاپەڕا ٤: یاریزان بتنێ خشتە یان VIP هەلدبژێریت (بێی دروستکرنا تەمرینان) ================= -->
     <div class="page" id="page4">
         <div class="page-title">
             <h2>خشتەیێ یاریزانان و VIP</h2>
-            <p>خشتەیێ خۆ ب بها هەلبژێرە یان پەکێجا VIP دگەل مەدەربی وەرگرە</p>
+            <p>بتنێ ئەو خشتە یان پەکێجێ VIP هەلبژێرە یێ تە دڤێت</p>
         </div>
 
-        <div class="section-label"><i class="fa-solid fa-dumbbell"></i> ١. خشتەیێ تەمرینان یێ یاریزانان (ب بها):</div>
-        <div class="plan-price-card selected" id="planWorkoutCard" onclick="toggleWorkoutPlan()">
+        <div class="section-label"><i class="fa-solid fa-dumbbell"></i> ١. خشتەیێ تەمرینان یان خوارنێ (ب بها):</div>
+        <div class="plan-price-card selected" id="planWorkoutCard" onclick="togglePlanOption('workout')">
             <div class="plan-info">
-                <h4>خشتەیێ تەمرینێن جیمێ (تایبەت ب یاریزانی)</h4>
-                <p>هەلبژارتنا ڕۆژ، ماسولکە، ژمارا تەمرین، سێت و عەدەدان</p>
+                <h4>خشتەیێ تەمرینان ب تنێ (Workout Schedule)</h4>
+                <p>خشتەیێ تەمرینێن جیمێ یێ ئامادەکری بێی تەمرین چێکەی</p>
             </div>
             <div class="price-pill">20$</div>
         </div>
 
-        <div class="plan-price-card" id="planDietCard" onclick="toggleDietPlan()">
+        <div class="plan-price-card" id="planDietCard" onclick="togglePlanOption('diet')">
             <div class="plan-info">
-                <h4>خشتەیێ خوارنێ (Diet & Nutrition Schedule)</h4>
-                <p>پڕۆتین، کاربۆهێدرات و ژەمێن رۆژانە ل دویڤ کێش و ئارمانجێ</p>
+                <h4>خشتەیێ خوارنێ ب تنێ (Diet Schedule)</h4>
+                <p>خشتەیێ ژەمێن خارنێ یێ ئامادەکری ل دویڤ ئارمانجا لەشی</p>
             </div>
             <div class="price-pill">15$</div>
         </div>
 
-        <div class="section-label"><i class="fa-solid fa-crown"></i> ٢. پەکێجێن VIP دگەل مەدەربی (چاڤدێری ١٠٠٪):</div>
+        <div class="section-label"><i class="fa-solid fa-crown"></i> ٢. پەکێجێن VIP دگەل کاپتنی (١٠٠٪):</div>
         <div class="vip-grid">
-            <div class="vip-card" onclick="selectVipPackage(this, '١ هەیڤ VIP (١٠٠٪ مەدەرب)', 100)">
+            <div class="vip-card" onclick="selectVipPackage(this, '١ هەیڤ VIP (١٠٠٪ کاپتن)', 100)">
                 <span class="vip-badge">VIP 100%</span>
                 <h4>١ هەیڤ</h4>
                 <div class="vip-amount">100$</div>
             </div>
-            <div class="vip-card" onclick="selectVipPackage(this, '٢ هەیڤ VIP (١٠٠٪ مەدەرب)', 150)">
+            <div class="vip-card" onclick="selectVipPackage(this, '٢ هەیڤ VIP (١٠٠٪ کاپتن)', 150)">
                 <span class="vip-badge">VIP 100%</span>
                 <h4>٢ هەیڤ</h4>
                 <div class="vip-amount">150$</div>
             </div>
-            <div class="vip-card" onclick="selectVipPackage(this, '٣ هەیڤ VIP (١٠٠٪ مەدەرب)', 200)">
+            <div class="vip-card" onclick="selectVipPackage(this, '٣ هەیڤ VIP (١٠٠٪ کاپتن)', 200)">
                 <span class="vip-badge">VIP 100%</span>
                 <h4>٣ هەیڤ</h4>
                 <div class="vip-amount">200$</div>
             </div>
         </div>
 
-        <div class="section-label"><i class="fa-solid fa-calendar-week"></i> ٣. ڕێکخستنا ڕۆژێن تەمرینێ د خشتەیێ یاریزانی دا:</div>
-        <div class="days-selector">
-            <div class="day-pill" onclick="setDaysCount(3, this)">٣ ڕۆژ</div>
-            <div class="day-pill" onclick="setDaysCount(4, this)">٤ ڕۆژ</div>
-            <div class="day-pill active" onclick="setDaysCount(5, this)">٥ ڕۆژ</div>
-            <div class="day-pill" onclick="setDaysCount(6, this)">٦ ڕۆژ</div>
-        </div>
-
-        <div id="daysContainer"></div>
-
-        <button class="btn-gold" onclick="generateFinalTable()">
-            <i class="fa-solid fa-table-list"></i>
-            <span>دروستکرنا خشتەیێ دویماهیێ و حیسابکرنا بهای</span>
+        <button type="button" class="btn-gold" onclick="generateOrderSummary()">
+            <i class="fa-solid fa-receipt"></i>
+            <span>نیشادانا خشتەیێ هەلبژارتی و بهایێ گشتی</span>
         </button>
 
-        <div class="summary-table-box" id="finalSummaryBox" style="display:none;">
-            <h4>خشتەیێ تەمام یێ IRON PULSE</h4>
-            <div id="finalTableRender"></div>
+        <div class="summary-table-box" id="orderSummaryBox" style="display:none;">
+            <h4>خشتەیێ هەلبژارتنا تە</h4>
+            <div id="orderSummaryTable"></div>
             <div class="total-cost-bar">
-                <span>کۆژمێ گشتی یێ هەلبژارتی:</span>
-                <span class="amt" id="totalCostDisplay">20$</span>
+                <span>کۆژمێ گشتی:</span>
+                <span class="amt" id="totalCostValue">20$</span>
             </div>
             <div class="contact-coach-row" style="margin-bottom:0;">
-                <button class="btn-wa" onclick="sendFullOrderToCoach('whatsapp')">
+                <button type="button" class="btn-wa" onclick="sendOrderToCoach('whatsapp')">
                     <i class="fa-brands fa-whatsapp"></i>
-                    <span>ناردن بۆ مەدەربی (WhatsApp)</span>
+                    <span>ناردن بۆ کاپتنی (WhatsApp)</span>
                 </button>
-                <button class="btn-ig" onclick="sendFullOrderToCoach('instagram')">
+                <button type="button" class="btn-ig" onclick="sendOrderToCoach('instagram')">
                     <i class="fa-brands fa-instagram"></i>
-                    <span>ناردن بۆ مەدەربی (Instagram)</span>
+                    <span>ناردن بۆ کاپتنی (Instagram)</span>
                 </button>
             </div>
         </div>
 
-        <button class="btn-outline" onclick="goToPage(3)">زڤڕین</button>
+        <button type="button" class="btn-outline" onclick="goToPage(3)">زڤڕین</button>
+    </div>
+</div>
+
+<!-- ================= پەنێلێ زێدەکرنا کاپتنان ب رێکا تەلەفۆن و ئەکاونتی (بێی کۆد) ================= -->
+<div class="coach-admin-modal" id="coachManagerModal">
+    <div class="coach-admin-box">
+        <div class="coach-admin-head">
+            <h3><i class="fa-solid fa-user-plus"></i> زێدەکرنا کاپتنان (بێی کۆد)</h3>
+            <button type="button" class="close-modal-btn" onclick="closeCoachManager()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+
+        <div class="form-group">
+            <label>ناڤێ کاپتنی</label>
+            <input type="text" id="newCoachName" placeholder="نموونە: کاپتن سەرهەد یان کاپتن سارا">
+        </div>
+
+        <div class="two-cols">
+            <div class="form-group">
+                <label>ڕەگەزێ کاپتنی</label>
+                <select id="newCoachGender">
+                    <option value="male">کاپتنێ کوڕ</option>
+                    <option value="female">کاپتنا کچ</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>پسپۆری</label>
+                <input type="text" id="newCoachRole" placeholder="لەشجوانی / فیتنێس">
+            </div>
+        </div>
+
+        <div class="two-cols">
+            <div class="form-group">
+                <label>ژمارا تەلەفۆنێ / WhatsApp</label>
+                <input type="tel" id="newCoachPhone" placeholder="9647500000000" dir="ltr">
+            </div>
+            <div class="form-group">
+                <label>ئەکاونتێ Instagram (بێ @)</label>
+                <input type="text" id="newCoachInsta" placeholder="captain_name" dir="ltr">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>وێنێ کاپتنی (لینک یان وێنە ژ ئامێری هەلبژێرە)</label>
+            <input type="text" id="newCoachImg" placeholder="https://..." dir="ltr">
+            <input type="file" accept="image/*" style="margin-top:6px;" onchange="pickCoachImageFile(this)">
+        </div>
+
+        <button type="button" class="btn-gold" onclick="addNewCoach()">
+            <i class="fa-solid fa-plus"></i>
+            <span>خەزنکرنا کاپتنی د لیستا لاپەڕا ٣ دا</span>
+        </button>
+
+        <hr style="border-color: rgba(255,255,255,0.12); margin: 14px 0;">
+        <div id="coachesAdminList"></div>
     </div>
 </div>
 
 <script>
+    const bodyShapesByGender = {
+        male: [
+            {
+                id: 'm_lean',
+                title: 'لەشێ تەقسیمکری',
+                sub: 'Lean & Shredded',
+                img: 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=400&auto=format&fit=crop'
+            },
+            {
+                id: 'm_bulk',
+                title: 'ماسولکە و قەبارە',
+                sub: 'Bulking & Mass',
+                img: 'https://images.unsplash.com/photo-1534367507873-d2d7e24c797f?w=400&auto=format&fit=crop'
+            },
+            {
+                id: 'm_loss',
+                title: 'داکەتنا کێشی',
+                sub: 'Weight Loss',
+                img: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&auto=format&fit=crop'
+            }
+        ],
+        female: [
+            {
+                id: 'f_fit',
+                title: 'لەشێ فیت و ڕێک',
+                sub: 'Fit & Toned',
+                img: 'https://images.unsplash.com/photo-1518310383802-640c2de311b2?w=400&auto=format&fit=crop'
+            },
+            {
+                id: 'f_glutes',
+                title: 'تەقسیم و هێز',
+                sub: 'Athletic & Strong',
+                img: 'https://images.unsplash.com/photo-1594381898411-846e7d193883?w=400&auto=format&fit=crop'
+            },
+            {
+                id: 'f_slim',
+                title: 'داکەتنا کێشی',
+                sub: 'Slim & Lean',
+                img: 'https://images.unsplash.com/photo-1550345332-09e3ac987658?w=400&auto=format&fit=crop'
+            }
+        ]
+    };
+
+    const defaultCoaches = [
+        {
+            id: 'c_m1',
+            gender: 'male',
+            name: 'کاپتن دانیال',
+            role: 'لەشجوانی کوڕان',
+            phone: '9647500000001',
+            insta: 'ironpulse_daniel',
+            img: 'https://images.unsplash.com/photo-1567013127542-490d757e51fc?w=300&auto=format&fit=crop'
+        },
+        {
+            id: 'c_m2',
+            gender: 'male',
+            name: 'کاپتن ڕزگار',
+            role: 'هێز و تەقسیم',
+            phone: '9647500000002',
+            insta: 'ironpulse_rizgar',
+            img: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=300&auto=format&fit=crop'
+        },
+        {
+            id: 'c_f1',
+            gender: 'female',
+            name: 'کاپتن مایا',
+            role: 'فیتنێسا کچان',
+            phone: '9647500000003',
+            insta: 'ironpulse_maya',
+            img: 'https://images.unsplash.com/photo-1594381898411-846e7d193883?w=300&auto=format&fit=crop'
+        },
+        {
+            id: 'c_f2',
+            gender: 'female',
+            name: 'کاپتن لارا',
+            role: 'داکەتنا کێش و ڕێکخستن',
+            phone: '9647500000004',
+            insta: 'ironpulse_lara',
+            img: 'https://images.unsplash.com/photo-1548690312-e3b507d8c110?w=300&auto=format&fit=crop'
+        }
+    ];
+
+    let coachesList = JSON.parse(localStorage.getItem('ironpulse_coaches_v1')) || defaultCoaches;
+
     const userState = {
         phone: '',
         email: '',
-        gender: 'کوڕ (Male)',
+        gender: 'male',
         weight: '',
         height: '',
         dob: '',
         country: 'کوردستان / عێراق',
         city: 'دهۆک',
-        bodyGoal: 'لەشێ تەقسیمکری و کێم چەوری (Lean & Shredded)',
-        coachName: 'کاپتن دانیال',
-        coachPhone: '9647500000001',
-        coachInsta: 'ironpulse_daniel',
-        workoutSelected: true,
-        workoutPrice: 20,
-        dietSelected: false,
-        dietPrice: 15,
+        bodyGoal: 'لەشێ تەقسیمکری (Lean & Shredded)',
+        selectedCoachId: null,
+        selectedCoachName: 'کاپتن دانیال',
+        selectedCoachPhone: '9647500000001',
+        selectedCoachInsta: 'ironpulse_daniel',
+        onlyWorkout: true,
+        onlyDiet: false,
         vipLabel: 'بێ پەکێجا VIP',
-        vipPrice: 0,
-        daysCount: 5
+        vipPrice: 0
     };
-
-    const allMuscles = [
-        'سینگ (Chest)',
-        'مل (Shoulder)',
-        'پێشیا دەستی (Biceps)',
-        'پشتا دەستی (Triceps)',
-        'پشت (Back)',
-        'پێ (Legs)',
-        'ملە (Neck)',
-        'زک (Abs)'
-    ];
-
-    let scheduleData = [
-        { muscles: ['سینگ (Chest)', 'مل (Shoulder)'], exercises: 6, sets: 3, reps: 10 },
-        { muscles: ['پێشیا دەستی (Biceps)', 'پشتا دەستی (Triceps)'], exercises: 4, sets: 3, reps: 10 },
-        { muscles: ['پێ (Legs)'], exercises: 4, sets: 3, reps: 10 },
-        { muscles: ['سینگ (Chest)', 'مل (Shoulder)'], exercises: 6, sets: 3, reps: 10 },
-        { muscles: ['سینگ (Chest)', 'پشتا دەستی (Triceps)', 'پشت (Back)', 'ملە (Neck)'], exercises: 8, sets: 3, reps: 10 },
-        { muscles: ['پشت (Back)', 'زک (Abs)'], exercises: 5, sets: 3, reps: 12 }
-    ];
 
     function goToPage(num) {
         if (num === 2) {
@@ -986,9 +1080,7 @@
             userState.dob = document.getElementById('dobInput').value || '2000-01-01';
             userState.country = document.getElementById('countryInput').value;
             userState.city = document.getElementById('cityInput').value;
-        }
-        if (num === 4) {
-            renderDayBuilders();
+            renderPage3ByGender();
         }
 
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -1001,44 +1093,98 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function selectGender(g) {
-        userState.gender = g;
-        document.getElementById('genderMale').classList.toggle('selected', g.includes('Male'));
-        document.getElementById('genderFemale').classList.toggle('selected', g.includes('Female'));
+    function selectGender(gender) {
+        userState.gender = gender;
+        document.getElementById('genderMale').classList.toggle('selected', gender === 'male');
+        document.getElementById('genderFemale').classList.toggle('selected', gender === 'female');
     }
 
     function updateCities() {
         const country = document.getElementById('countryInput').value;
         const citySel = document.getElementById('cityInput');
-        const citiesMap = {
+        const map = {
             'کوردستان / عێراق': ['دهۆک', 'هەولێر', 'سلێمانی', 'زاخۆ', 'بەغدا'],
             'تورکیا': ['ئیستەنبۆل', 'ئەنقەرە', 'مێرسین', 'ئەنتالیا'],
             'ئەڵمانیا': ['بەرلین', 'هامبۆرگ', 'میونشن', 'کۆڵن'],
             'ئیمارات': ['دوبەی', 'ئەبوزەبی', 'شارقە']
         };
         citySel.innerHTML = '';
-        (citiesMap[country] || ['دهۆک']).forEach(c => {
+        (map[country] || ['دهۆک']).forEach(c => {
             citySel.innerHTML += `<option value="${c}">${c}</option>`;
         });
     }
 
-    function selectBody(el, goalText) {
-        userState.bodyGoal = goalText;
-        document.querySelectorAll('.body-card').forEach(c => c.classList.remove('selected'));
-        el.classList.add('selected');
+    function renderPage3ByGender() {
+        const isFemale = userState.gender === 'female';
+        document.getElementById('page3Title').innerText = isFemale
+            ? 'شێوێ لەشی و کاپتنێن کچان'
+            : 'شێوێ لەشی و کاپتنێن کوڕان';
+        document.getElementById('page3Sub').innerText = isFemale
+            ? 'تایبەت ب کچان — شێوێ لەشێ خۆ و کاپتنا کچ هەلبژێرە'
+            : 'تایبەت ب کوڕان — شێوێ لەشێ خۆ و کاپتنێ کوڕ هەلبژێرە';
+
+        const shapes = bodyShapesByGender[userState.gender] || bodyShapesByGender.male;
+        const shapesBox = document.getElementById('bodyShapesContainer');
+        shapesBox.innerHTML = '';
+        shapes.forEach((s, idx) => {
+            if (idx === 0) userState.bodyGoal = `${s.title} (${s.sub})`;
+            const card = document.createElement('div');
+            card.className = `body-card ${idx === 0 ? 'selected' : ''}`;
+            card.onclick = () => {
+                userState.bodyGoal = `${s.title} (${s.sub})`;
+                document.querySelectorAll('.body-card').forEach(el => el.classList.remove('selected'));
+                card.classList.add('selected');
+            };
+            card.innerHTML = `
+                <img src="${s.img}" alt="${s.title}">
+                <h4>${s.title}</h4>
+                <span>${s.sub}</span>
+            `;
+            shapesBox.appendChild(card);
+        });
+
+        const filteredCoaches = coachesList.filter(c => c.gender === userState.gender);
+        const coachesBox = document.getElementById('coachesContainer');
+        coachesBox.innerHTML = '';
+
+        filteredCoaches.forEach((coach, idx) => {
+            if (idx === 0) {
+                userState.selectedCoachId = coach.id;
+                userState.selectedCoachName = coach.name;
+                userState.selectedCoachPhone = coach.phone;
+                userState.selectedCoachInsta = coach.insta;
+            }
+            const card = document.createElement('div');
+            card.className = `coach-card ${idx === 0 ? 'selected' : ''}`;
+            card.onclick = () => {
+                userState.selectedCoachId = coach.id;
+                userState.selectedCoachName = coach.name;
+                userState.selectedCoachPhone = coach.phone;
+                userState.selectedCoachInsta = coach.insta;
+                document.querySelectorAll('.coach-card').forEach(el => el.classList.remove('selected'));
+                card.classList.add('selected');
+            };
+            card.innerHTML = `
+                <img src="${coach.img}" alt="${coach.name}" onerror="this.src='https://images.unsplash.com/photo-1567013127542-490d757e51fc?w=300&auto=format&fit=crop'">
+                <h4>${coach.name}</h4>
+                <p>${coach.role}</p>
+                <div class="coach-direct-links" onclick="event.stopPropagation()">
+                    <button type="button" class="mini-wa-btn" onclick="directContactCoach('${coach.name}', '${coach.phone}', '', 'wa')">
+                        <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                    </button>
+                    <button type="button" class="mini-ig-btn" onclick="directContactCoach('${coach.name}', '', '${coach.insta}', 'ig')">
+                        <i class="fa-brands fa-instagram"></i> IG
+                    </button>
+                </div>
+            `;
+            coachesBox.appendChild(card);
+        });
     }
 
-    function selectCoach(el, name, phone, insta) {
-        userState.coachName = name;
-        userState.coachPhone = phone;
-        userState.coachInsta = insta;
-        document.querySelectorAll('.coach-card').forEach(c => c.classList.remove('selected'));
-        el.classList.add('selected');
-    }
-
-    function buildProfileMessage() {
-        return `سلاو ${userState.coachName} (IRON PULSE)، ئەڤە خشتەیێ پێزانینێن منە:\n` +
-               `• ڕەگەز: ${userState.gender}\n` +
+    function buildUserTableText() {
+        const genderLabel = userState.gender === 'female' ? 'کچ (Female)' : 'کوڕ (Male)';
+        return `سلاو ${userState.selectedCoachName} (IRON PULSE)، ئەڤە خشتەیێ پێزانینێن منە:\n` +
+               `• ڕەگەز: ${genderLabel}\n` +
                `• ژمارە: ${userState.phone}\n` +
                `• ئیمێل: ${userState.email}\n` +
                `• کێش: ${userState.weight} kg | درێژی: ${userState.height} cm\n` +
@@ -1047,31 +1193,44 @@
                `• شێوێ لەشێ خواستی: ${userState.bodyGoal}`;
     }
 
-    function sendToCoach(platform) {
-        const msg = buildProfileMessage();
-        if (platform === 'whatsapp') {
-            window.open(`https://wa.me/${userState.coachPhone}?text=${encodeURIComponent(msg)}`, '_blank');
+    function directContactCoach(name, phone, insta, mode) {
+        const msg = buildUserTableText().replace(userState.selectedCoachName, name);
+        if (mode === 'wa') {
+            const clean = (phone || '').replace(/[^0-9]/g, '');
+            window.open(`https://wa.me/${clean}?text=${encodeURIComponent(msg)}`, '_blank');
         } else {
             navigator.clipboard?.writeText(msg);
-            alert('خشتەیێ پێزانینێن تە هاتە کۆپی کرن! دێ چییە سەر ئینستاگرامێ مەدەربی دا بۆ وی فرێکەی (Paste).');
-            window.open(`https://instagram.com/${userState.coachInsta}`, '_blank');
+            alert(`پێزانینێن تە وەک خشتە هاتنە کۆپی کرن! دێ چییە سەر ئینستاگرامێ ${name} دا بۆ فرێکەی.`);
+            window.open(`https://instagram.com/${(insta || '').replace(/^@/, '')}`, '_blank');
         }
     }
 
-    function toggleWorkoutPlan() {
-        userState.workoutSelected = !userState.workoutSelected;
-        document.getElementById('planWorkoutCard').classList.toggle('selected', userState.workoutSelected);
+    function sendProfileToSelectedCoach(platform) {
+        const msg = buildUserTableText();
+        if (platform === 'whatsapp') {
+            const clean = (userState.selectedCoachPhone || '').replace(/[^0-9]/g, '');
+            window.open(`https://wa.me/${clean}?text=${encodeURIComponent(msg)}`, '_blank');
+        } else {
+            navigator.clipboard?.writeText(msg);
+            alert('خشتەیێ پێزانینێن تە هاتە کۆپی کرن! دێ چییە سەر ئینستاگرامێ کاپتنی دا بۆ فرێکەی.');
+            window.open(`https://instagram.com/${(userState.selectedCoachInsta || '').replace(/^@/, '')}`, '_blank');
+        }
     }
 
-    function toggleDietPlan() {
-        userState.dietSelected = !userState.dietSelected;
-        document.getElementById('planDietCard').classList.toggle('selected', userState.dietSelected);
+    function togglePlanOption(type) {
+        if (type === 'workout') {
+            userState.onlyWorkout = !userState.onlyWorkout;
+            document.getElementById('planWorkoutCard').classList.toggle('selected', userState.onlyWorkout);
+        } else {
+            userState.onlyDiet = !userState.onlyDiet;
+            document.getElementById('planDietCard').classList.toggle('selected', userState.onlyDiet);
+        }
     }
 
     function selectVipPackage(el, label, price) {
-        const alreadySelected = el.classList.contains('selected');
+        const isSame = el.classList.contains('selected');
         document.querySelectorAll('.vip-card').forEach(c => c.classList.remove('selected'));
-        if (alreadySelected) {
+        if (isSame) {
             userState.vipLabel = 'بێ پەکێجا VIP';
             userState.vipPrice = 0;
         } else {
@@ -1081,147 +1240,151 @@
         }
     }
 
-    function getTotalCost() {
-        let total = 0;
-        if (userState.workoutSelected) total += userState.workoutPrice;
-        if (userState.dietSelected) total += userState.dietPrice;
-        total += userState.vipPrice;
-        return total;
+    function calculateTotalAmount() {
+        let sum = 0;
+        if (userState.onlyWorkout) sum += 20;
+        if (userState.onlyDiet) sum += 15;
+        sum += userState.vipPrice;
+        return sum;
     }
 
-    function setDaysCount(count, el) {
-        userState.daysCount = count;
-        document.querySelectorAll('.day-pill').forEach(p => p.classList.remove('active'));
-        el.classList.add('active');
-        renderDayBuilders();
-    }
-
-    function renderDayBuilders() {
-        const container = document.getElementById('daysContainer');
-        container.innerHTML = '';
-
-        for (let i = 0; i < userState.daysCount; i++) {
-            const dayObj = scheduleData[i];
-            let tagsHtml = '';
-            allMuscles.forEach(m => {
-                const isSelected = dayObj.muscles.includes(m) ? 'active' : '';
-                tagsHtml += `<span class="m-tag ${isSelected}" onclick="toggleMuscle(${i}, '${m}')">${m}</span>`;
-            });
-
-            container.innerHTML += `
-                <div class="day-builder-card">
-                    <div class="day-builder-header">
-                        <span><i class="fa-solid fa-calendar-day"></i> ڕۆژا ${i + 1}</span>
-                        <small style="color:#9ca3af;">ماسولکان هەلبژێرە</small>
-                    </div>
-                    <div class="muscle-tags">${tagsHtml}</div>
-                    <div class="volume-row">
-                        <div class="vol-box">
-                            <label>ژمارا تەمرینان</label>
-                            <input type="number" value="${dayObj.exercises}" onchange="updateVol(${i}, 'exercises', this.value)">
-                        </div>
-                        <div class="vol-box">
-                            <label>سێت (Sets)</label>
-                            <input type="number" value="${dayObj.sets}" onchange="updateVol(${i}, 'sets', this.value)">
-                        </div>
-                        <div class="vol-box">
-                            <label>عەدەد (Reps)</label>
-                            <input type="number" value="${dayObj.reps}" onchange="updateVol(${i}, 'reps', this.value)">
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-    }
-
-    function toggleMuscle(dayIndex, muscle) {
-        const list = scheduleData[dayIndex].muscles;
-        const idx = list.indexOf(muscle);
-        if (idx > -1) {
-            list.splice(idx, 1);
-        } else {
-            list.push(muscle);
-        }
-        renderDayBuilders();
-    }
-
-    function updateVol(dayIndex, field, val) {
-        scheduleData[dayIndex][field] = parseInt(val) || 1;
-    }
-
-    function generateFinalTable() {
-        const box = document.getElementById('finalSummaryBox');
-        const render = document.getElementById('finalTableRender');
+    function generateOrderSummary() {
         let rows = '';
-
-        if (userState.workoutSelected) {
-            for (let i = 0; i < userState.daysCount; i++) {
-                const d = scheduleData[i];
-                const mText = d.muscles.length ? d.muscles.join(' + ') : 'پشوو (Rest)';
-                rows += `
-                    <tr>
-                        <td><strong>ڕۆژا ${i + 1}</strong></td>
-                        <td>${mText}</td>
-                        <td>${d.exercises} تەمرین (${d.sets} سێت × ${d.reps} عەدەد)</td>
-                    </tr>
-                `;
-            }
+        if (userState.onlyWorkout) {
+            rows += `<tr><td><strong>خشتەیێ تەمرینان ب تنێ</strong></td><td>خشتەیێ تەمرینێن جیمێ یێ ئامادەکری</td><td>20$</td></tr>`;
         }
-        if (userState.dietSelected) {
-            rows += `
-                <tr>
-                    <td><strong>خشتەیێ خوارنێ</strong></td>
-                    <td>پڕۆتین + کاربۆهێدرات + ژەمێن رۆژانە</td>
-                    <td>بهایێ خشتەی: 15$</td>
-                </tr>
-            `;
+        if (userState.onlyDiet) {
+            rows += `<tr><td><strong>خشتەیێ خوارنێ ب تنێ</strong></td><td>خشتەیێ خوارنێ یێ ئامادەکری</td><td>15$</td></tr>`;
         }
-        rows += `
-            <tr>
-                <td><strong>پەکێجا VIP</strong></td>
-                <td>${userState.vipLabel}</td>
-                <td>${userState.vipPrice}$</td>
-            </tr>
-        `;
+        if (userState.vipPrice > 0) {
+            rows += `<tr><td><strong>${userState.vipLabel}</strong></td><td>چاڤدێرییا ١٠٠٪ دگەل ${userState.selectedCoachName}</td><td>${userState.vipPrice}$</td></tr>`;
+        }
+        if (!rows) {
+            rows = `<tr><td colspan="3">هیڤیدارین ئێک ژ خشتە یان پەکێجێن VIP هەلبژێرە</td></tr>`;
+        }
 
-        render.innerHTML = `
+        document.getElementById('orderSummaryTable').innerHTML = `
             <table class="clean-table">
                 <thead>
                     <tr>
-                        <th>بەش / ڕۆژ</th>
+                        <th>هەلبژارتن</th>
                         <th>هویرکاری</th>
-                        <th>تەمرین / بها</th>
+                        <th>بها</th>
                     </tr>
                 </thead>
                 <tbody>${rows}</tbody>
             </table>
         `;
-        document.getElementById('totalCostDisplay').innerText = `${getTotalCost()}$`;
-        box.style.display = 'block';
-        box.scrollIntoView({ behavior: 'smooth' });
+        document.getElementById('totalCostValue').innerText = `${calculateTotalAmount()}$`;
+        document.getElementById('orderSummaryBox').style.display = 'block';
+        document.getElementById('orderSummaryBox').scrollIntoView({ behavior: 'smooth' });
     }
 
-    function sendFullOrderToCoach(platform) {
-        let text = buildProfileMessage() + `\n\n📋 خشتە و پەکێجا هەلبژارتی:\n`;
-        if (userState.workoutSelected) {
-            text += `• خشتەیێ تەمرینان (20$ - ${userState.daysCount} ڕۆژ):\n`;
-            for (let i = 0; i < userState.daysCount; i++) {
-                const d = scheduleData[i];
-                text += `  - ڕۆژا ${i + 1}: ${d.muscles.join(' + ')} | ${d.exercises} تەمرین (${d.sets} سێت × ${d.reps} عەدەد)\n`;
-            }
-        }
-        if (userState.dietSelected) text += `• خشتەیێ خوارنێ: 15$\n`;
-        text += `• پەکێجا VIP: ${userState.vipLabel} (${userState.vipPrice}$)\n`;
-        text += `• کۆژمێ گشتی: ${getTotalCost()}$`;
+    function sendOrderToCoach(platform) {
+        let orderText = buildUserTableText() + `\n\n📋 هەلبژارتنا خشتە و پەکێجێ:\n`;
+        if (userState.onlyWorkout) orderText += `• خشتەیێ تەمرینان ب تنێ: 20$\n`;
+        if (userState.onlyDiet) orderText += `• خشتەیێ خوارنێ ب تنێ: 15$\n`;
+        if (userState.vipPrice > 0) orderText += `• ${userState.vipLabel}: ${userState.vipPrice}$\n`;
+        orderText += `• کۆژمێ گشتی: ${calculateTotalAmount()}$`;
 
         if (platform === 'whatsapp') {
-            window.open(`https://wa.me/${userState.coachPhone}?text=${encodeURIComponent(text)}`, '_blank');
+            const clean = (userState.selectedCoachPhone || '').replace(/[^0-9]/g, '');
+            window.open(`https://wa.me/${clean}?text=${encodeURIComponent(orderText)}`, '_blank');
         } else {
-            navigator.clipboard?.writeText(text);
-            alert('خشتەیێ تەمام یێ تە و کۆژمێ گشتی هاتنە کۆپی کرن! دێ چییە سەر ئینستاگرامێ مەدەربی دا بۆ وی فرێکەی (Paste).');
-            window.open(`https://instagram.com/${userState.coachInsta}`, '_blank');
+            navigator.clipboard?.writeText(orderText);
+            alert('خشتەیێ هەلبژارتنا تە هاتە کۆپی کرن! دێ چییە سەر ئینستاگرامێ کاپتنی دا بۆ فرێکەی.');
+            window.open(`https://instagram.com/${(userState.selectedCoachInsta || '').replace(/^@/, '')}`, '_blank');
         }
     }
+
+    /* ================= زێدەکرنا کاپتنان ب رێکا تەلەفۆن و ئەکاونتی (بێی کۆد) ================= */
+    function openCoachManager() {
+        document.getElementById('coachManagerModal').style.display = 'flex';
+        renderCoachesAdminList();
+    }
+
+    function closeCoachManager() {
+        document.getElementById('coachManagerModal').style.display = 'none';
+        if (document.getElementById('page3').classList.contains('active')) {
+            renderPage3ByGender();
+        }
+    }
+
+    function pickCoachImageFile(inputEl) {
+        const file = inputEl.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('newCoachImg').value = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function addNewCoach() {
+        const name = document.getElementById('newCoachName').value.trim();
+        const gender = document.getElementById('newCoachGender').value;
+        const role = document.getElementById('newCoachRole').value.trim() || (gender === 'female' ? 'فیتنێسا کچان' : 'لەشجوانی کوڕان');
+        const phone = document.getElementById('newCoachPhone').value.trim();
+        const insta = document.getElementById('newCoachInsta').value.trim();
+        const img = document.getElementById('newCoachImg').value.trim() || (
+            gender === 'female'
+                ? 'https://images.unsplash.com/photo-1594381898411-846e7d193883?w=300&auto=format&fit=crop'
+                : 'https://images.unsplash.com/photo-1567013127542-490d757e51fc?w=300&auto=format&fit=crop'
+        );
+
+        if (!name) {
+            alert('هیڤیدارین ناڤێ کاپتنی بنڤیسە!');
+            return;
+        }
+
+        coachesList.push({
+            id: 'c_' + Date.now(),
+            gender,
+            name,
+            role,
+            phone,
+            insta,
+            img
+        });
+
+        localStorage.setItem('ironpulse_coaches_v1', JSON.stringify(coachesList));
+        document.getElementById('newCoachName').value = '';
+        document.getElementById('newCoachRole').value = '';
+        document.getElementById('newCoachPhone').value = '';
+        document.getElementById('newCoachInsta').value = '';
+        document.getElementById('newCoachImg').value = '';
+
+        renderCoachesAdminList();
+        alert('کاپتن ب سەرکەفتییانە هاتە زێدەکرن!');
+    }
+
+    function deleteCoach(id) {
+        coachesList = coachesList.filter(c => c.id !== id);
+        localStorage.setItem('ironpulse_coaches_v1', JSON.stringify(coachesList));
+        renderCoachesAdminList();
+    }
+
+    function renderCoachesAdminList() {
+        const list = document.getElementById('coachesAdminList');
+        list.innerHTML = '';
+        coachesList.forEach(c => {
+            const gText = c.gender === 'female' ? 'کچ' : 'کوڕ';
+            list.innerHTML += `
+                <div class="coach-list-item">
+                    <div class="coach-list-left">
+                        <img src="${c.img}" alt="${c.name}" onerror="this.src='https://images.unsplash.com/photo-1567013127542-490d757e51fc?w=100&auto=format&fit=crop'">
+                        <div>
+                            <strong>${c.name}</strong> (${gText})
+                            <div style="font-size:10.5px; color:#9ca3af;">${c.phone || ''} ${c.insta ? '• @' + c.insta : ''}</div>
+                        </div>
+                    </div>
+                    <button type="button" class="del-coach-btn" onclick="deleteCoach('${c.id}')">ژێبرن</button>
+                </div>
+            `;
+        });
+    }
+
+    renderPage3ByGender();
 </script>
 
 </body>
